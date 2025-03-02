@@ -1,4 +1,4 @@
-
+# Docker Quickstart 
 
 ```bash
 docker run \
@@ -6,8 +6,7 @@ docker run \
   -p 5001:5001 \
   -v $(pwd)/kokoro-tts/output:/app/output \
   -v $(pwd)/kokoro-tts/input:/app/input \
-  --network private_network \
-  --gpus '"device=0,1"' \
+  --gpus all \
   aaronbolton78/kokoro-container:latest
 ```
-
+or use the provided `docker-compose.yml`
