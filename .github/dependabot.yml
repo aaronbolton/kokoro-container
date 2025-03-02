@@ -23,7 +23,6 @@ updates:
   # Enable version updates for Docker - webui Dockerfile
   - package-ecosystem: "docker"
     directory: "/"
-    docker-file: "Dockerfile.webui"
     schedule:
       interval: "weekly"
     labels:
