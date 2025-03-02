@@ -25,12 +25,13 @@ updates:
 
   # Enable version updates for Docker - webui Dockerfile
   - package-ecosystem: "docker"
-    # Using a virtual directory to avoid conflicts with the main Dockerfile
-    directory: "/webui"
+    # Look for the Dockerfile.webui in the root directory
+    directory: "/"
+    # Specify the Dockerfile.webui file
+    docker-file: "Dockerfile.webui"
     schedule:
       interval: "weekly"
-    # Specify the custom Dockerfile name with path from the virtual directory
-    dockerfile: "../Dockerfile.webui"
+    # Labels on pull requests for Docker dependencies
     labels:
       - "docker dependencies"
       - "webui dockerfile"
