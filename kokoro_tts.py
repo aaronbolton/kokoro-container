@@ -104,6 +104,11 @@ def main():
                         output_path = os.path.join(args.output_dir, f'segment_{i}.wav')
                         try:
                             # Ensure audio is in the correct format for soundfile
+                            # Convert PyTorch tensor to NumPy array if needed
+                            if hasattr(audio, 'numpy'):
+                                print(f"Converting PyTorch tensor to NumPy array")
+                                audio = audio.numpy()
+                            
                             if audio.dtype != np.float32:
                                 print(f"Converting audio from {audio.dtype} to float32")
                                 audio = audio.astype(np.float32)

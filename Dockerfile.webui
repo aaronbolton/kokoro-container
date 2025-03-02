@@ -18,7 +18,9 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir flask==3.1.0 numpy==1.26.4 soundfile==0.12.1 scipy
+    pip install --no-cache-dir flask==3.1.0 numpy==1.26.4 soundfile==0.12.1 scipy && \
+    pip install --no-cache-dir -q git+https://github.com/hexgrad/kokoro.git && \
+    pip install --no-cache-dir -q misaki[ja] misaki[zh]    
 
 # Copy application files
 COPY app.py .
