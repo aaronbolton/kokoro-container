@@ -1,5 +1,5 @@
 # Use Python 3.10 as the base image
-FROM python:3.10
+FROM python:3.13
 
 # Add metadata
 LABEL maintainer="Kokoro TTS"
