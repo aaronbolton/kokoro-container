@@ -51,6 +51,7 @@ RUN mkdir -p input output
 # Create non-root user for security
 RUN groupadd -r -g 1000 appgroup && \
     useradd -r -u 1000 -g appgroup appuser && \
+    usermod -a -G root appuser && \
     mkdir -p /home/appuser/.cache/huggingface && \
     chown -R appuser:appgroup /app /home/appuser
 
