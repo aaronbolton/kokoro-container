@@ -13,36 +13,27 @@ updates:
 
   # Enable version updates for Docker - main Dockerfile
   - package-ecosystem: "docker"
-    # Look for the main Dockerfile in the root directory
     directory: "/"
-    # Check for updates once a week
     schedule:
       interval: "weekly"
-    # Labels on pull requests for Docker dependencies
     labels:
       - "docker dependencies"
       - "main dockerfile"
 
   # Enable version updates for Docker - webui Dockerfile
   - package-ecosystem: "docker"
-    # Look for the Dockerfile.webui in the root directory
     directory: "/"
-    # Specify the Dockerfile.webui file
     docker-file: "Dockerfile.webui"
     schedule:
       interval: "weekly"
-    # Labels on pull requests for Docker dependencies
     labels:
       - "docker dependencies"
       - "webui dockerfile"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
-    # Look for GitHub Actions workflows in the .github/workflows directory
     directory: "/"
-    # Check for updates once a week
     schedule:
       interval: "weekly"
-    # Labels on pull requests for GitHub Actions
     labels:
       - "github-actions dependencies"
