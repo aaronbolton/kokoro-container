@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kokoro TTS Web Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Kokoro TTS</h1>
+            <p>Text-to-Speech Generator</p>
+        </header>
+
+        <main>
+            <form id="ttsForm">
+                <div class="form-section">
+                    <h2>Input</h2>
+                    
+                    <div class="input-type-selector">
+                        <label>
+                            <input type="radio" name="inputType" value="text" checked>
+                            Text Input
+                        </label>
+                        <label>
+                            <input type="radio" name="inputType" value="file">
+                            File Upload
+                        </label>
+                    </div>
+                    
+                    <div id="textInputContainer">
+                        <label for="text">Enter Text:</label>
+                        <textarea id="text" name="text" rows="5" placeholder="Enter the text you want to convert to speech..."></textarea>
+                    </div>
+                    
+                    <div id="fileInputContainer" style="display: none;">
+                        <label for="textFile">Upload Text File:</label>
+                        <input type="file" id="textFile" name="textFile" accept=".txt">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Options</h2>
+                    
+                    <div class="form-group">
+                        <label for="langCode">Language:</label>
+                        <select id="langCode" name="langCode">
+                            <option value="a">American English</option>
+                            <option value="b">British English</option>
+                            <option value="e">Spanish</option>
+                            <option value="f">French</option>
+                            <option value="h">Hindi</option>
+                            <option value="i">Italian</option>
+                            <option value="p">Brazilian Portuguese</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="voice">Voice:</label>
+                        <select id="voice" name="voice">
+                            <!-- American English -->
+                            <optgroup label="American English">
+                                <option value="af_heart" selected>af_heart 🚺❤️ (A)</option>
+                                <option value="af_alloy">af_alloy 🚺 (C)</option>
+                                <option value="af_aoede">af_aoede 🚺 (C+)</option>
+                                <option value="af_bella">af_bella 🚺🔥 (A-)</option>
+                                <option value="af_jessica">af_jessica 🚺 (D)</option>
+                                <option value="af_kore">af_kore 🚺 (C+)</option>
+                                <option value="af_nicole">af_nicole 🚺🎧 (B-)</option>
+                                <option value="af_nova">af_nova 🚺 (C)</option>
+                                <option value="af_river">af_river 🚺 (D)</option>
+                                <option value="af_sarah">af_sarah 🚺 (C+)</option>
+                                <option value="af_sky">af_sky 🚺 (C-)</option>
+                                <option value="am_adam">am_adam 🚹 (F+)</option>
+                                <option value="am_echo">am_echo 🚹 (D)</option>
+                                <option value="am_eric">am_eric 🚹 (D)</option>
+                                <option value="am_fenrir">am_fenrir 🚹 (C+)</option>
+                                <option value="am_liam">am_liam 🚹 (D)</option>
+                                <option value="am_michael">am_michael 🚹 (C+)</option>
+                                <option value="am_onyx">am_onyx 🚹 (D)</option>
+                                <option value="am_puck">am_puck 🚹 (C+)</option>
+                                <option value="am_santa">am_santa 🚹 (D-)</option>
+                            </optgroup>
+                            
+                            <!-- British English -->
+                            <optgroup label="British English">
+                                <option value="bf_alice">bf_alice 🚺 (D)</option>
+                                <option value="bf_emma">bf_emma 🚺 (B-)</option>
+                                <option value="bf_isabella">bf_isabella 🚺 (C)</option>
+                                <option value="bf_lily">bf_lily 🚺 (D)</option>
+                                <option value="bm_daniel">bm_daniel 🚹 (D)</option>
+                                <option value="bm_fable">bm_fable 🚹 (C)</option>
+                                <option value="bm_george">bm_george 🚹 (C)</option>
+                                <option value="bm_lewis">bm_lewis 🚹 (D+)</option>
+                            </optgroup>
+                            
+                            <!-- Japanese -->
+                            <optgroup label="Japanese">
+                                <option value="jf_alpha">jf_alpha 🚺 (C+)</option>
+                                <option value="jf_gongitsune">jf_gongitsune 🚺 (C)</option>
+                                <option value="jf_nezumi">jf_nezumi 🚺 (C-)</option>
+                                <option value="jf_tebukuro">jf_tebukuro 🚺 (C)</option>
+                                <option value="jm_kumo">jm_kumo 🚹 (C-)</option>
+                            </optgroup>
+                            
+                            <!-- Mandarin Chinese -->
+                            <optgroup label="Mandarin Chinese">
+                                <option value="zf_xiaobei">zf_xiaobei 🚺 (D)</option>
+                                <option value="zf_xiaoni">zf_xiaoni 🚺 (D)</option>
+                                <option value="zf_xiaoxiao">zf_xiaoxiao 🚺 (D)</option>
+                                <option value="zf_xiaoyi">zf_xiaoyi 🚺 (D)</option>
+                                <option value="zm_yunjian">zm_yunjian 🚹 (D)</option>
+                                <option value="zm_yunxi">zm_yunxi 🚹 (D)</option>
+                                <option value="zm_yunxia">zm_yunxia 🚹 (D)</option>
+                                <option value="zm_yunyang">zm_yunyang 🚹 (D)</option>
+                            </optgroup>
+                            
+                            <!-- Spanish -->
+                            <optgroup label="Spanish">
+                                <option value="ef_dora">ef_dora 🚺</option>
+                                <option value="em_alex">em_alex 🚹</option>
+                                <option value="em_santa">em_santa 🚹</option>
+                            </optgroup>
+                            
+                            <!-- French -->
+                            <optgroup label="French">
+                                <option value="ff_siwis">ff_siwis 🚺 (B-)</option>
+                            </optgroup>
+                            
+                            <!-- Hindi -->
+                            <optgroup label="Hindi">
+                                <option value="hf_alpha">hf_alpha 🚺 (C)</option>
+                                <option value="hf_beta">hf_beta 🚺 (C)</option>
+                                <option value="hm_omega">hm_omega 🚹 (C)</option>
+                                <option value="hm_psi">hm_psi 🚹 (C)</option>
+                            </optgroup>
+                            
+                            <!-- Italian -->
+                            <optgroup label="Italian">
+                                <option value="if_sara">if_sara 🚺 (C)</option>
+                                <option value="im_nicola">im_nicola 🚹 (C)</option>
+                            </optgroup>
+                            
+                            <!-- Brazilian Portuguese -->
+                            <optgroup label="Brazilian Portuguese">
+                                <option value="pf_dora">pf_dora 🚺</option>
+                                <option value="pm_alex">pm_alex 🚹</option>
+                                <option value="pm_santa">pm_santa 🚹</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="speed">Speed: <span id="speedValue">1.0</span></label>
+                        <input type="range" id="speed" name="speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" id="generateBtn">Generate Audio</button>
+                </div>
+            </form>
+            
+            <div id="results" style="display: none;">
+                <h2>Generated Audio</h2>
+                <div id="statusMessage"></div>
+                <div id="audioContainer"></div>
+                <div id="downloadAll">
+                    <button id="downloadAllBtn" style="display: none;">Download All Files</button>
+                </div>
+            </div>
+            
+            <div id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Generating audio, please wait...</p>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Kokoro TTS - An open-weight TTS model with 82 million parameters</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

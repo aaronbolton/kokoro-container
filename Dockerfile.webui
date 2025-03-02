@@ -1,0 +1,37 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-dev \
+    build-essential \
+    libsndfile1 \
+    espeak-ng \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir flask==3.1.0 numpy==1.26.4 soundfile==0.12.1 scipy
+
+# Copy application files
+COPY app.py .
+COPY kokoro_tts.py .
+COPY example.txt .
+COPY templates/ templates/
+COPY static/ static/
+
+# Create directories
+RUN mkdir -p input output
+
+# Expose port
+EXPOSE 5001
+
+# Run the application
+CMD ["python", "app.py"]
