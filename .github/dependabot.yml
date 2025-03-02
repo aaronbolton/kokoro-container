@@ -13,7 +13,7 @@ updates:
 
   # Enable version updates for Docker - main Dockerfile
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/docker"
     docker-file: "Dockerfile"
     schedule:
       interval: "weekly"
