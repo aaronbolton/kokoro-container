@@ -1,61 +1,36 @@
-FROM python:3.10-slim AS builder
-
-WORKDIR /build
-
-# Install only the build dependencies
-RUN apt-get update && apt-get install -y \
-    python3-dev \
-    build-essential \
-    git \
-    --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first to leverage Docker cache
-COPY requirements.txt .
-
-# Create and activate virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install dependencies in a single layer
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir wheel && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -q git+https://github.com/hexgrad/kokoro.git && \
-    pip install --no-cache-dir -q misaki[ja] misaki[zh]
-
-# Second stage - runtime image
-FROM python:3.10-slim
+FROM python:3.13-slim
 
 WORKDIR /app
 
-# Copy only runtime dependencies from builder stage
-COPY --from=builder /opt/venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-# Install only the runtime dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
+    python3-dev \
+    build-essential \
     libsndfile1 \
     espeak-ng \
-    --no-install-recommends \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
+# Set up virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir flask==3.1.0 numpy==1.26.4 soundfile==0.12.1 scipy && \
+    pip install --no-cache-dir -q git+https://github.com/hexgrad/kokoro.git && \
+    pip install --no-cache-dir -q misaki[ja] misaki[zh]    
+
 # Copy application files
-COPY app.py kokoro_tts.py example.txt ./
+COPY app.py .
+COPY kokoro_tts.py .
+COPY example.txt .
 COPY templates/ templates/
 COPY static/ static/
 
 # Create directories
 RUN mkdir -p input output
-
-# Create non-root user for security
-RUN groupadd -r -g 1000 appgroup && \
-    useradd -r -u 1000 -g appgroup appuser && \
-    usermod -a -G root appuser && \
-    mkdir -p /home/appuser/.cache/huggingface && \
-    chown -R appuser:appgroup /app /home/appuser
-
-USER appuser
 
 # Expose port
 EXPOSE 5001
