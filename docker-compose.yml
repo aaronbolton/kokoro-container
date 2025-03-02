@@ -1,0 +1,16 @@
+services:
+    kokoro-tts:
+      image: aaronbolton78/kokoro-container:latest
+      container_name: kokoro-tts
+      ports:
+        - "5001:5001"
+      volumes:
+        - ./kokoro-tts/output:/app/output
+        - ./kokoro-tts/input:/app/input
+      deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                count: all
+                capabilities: [gpu]
