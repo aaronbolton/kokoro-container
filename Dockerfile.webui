@@ -32,6 +32,13 @@ COPY static/ static/
 # Create directories
 RUN mkdir -p input output
 
+RUN groupadd -r -g 1000 appgroup && \
+    useradd -r -u 1000 -g appgroup -M appuser
+
+RUN chown -R appuser:appgroup /app
+
+USER appuser
+
 # Expose port
 EXPOSE 5001
 
