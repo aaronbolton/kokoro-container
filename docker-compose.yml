@@ -7,6 +7,7 @@ services:
       volumes:
         - ./kokoro-tts/output:/app/output
         - ./kokoro-tts/input:/app/input
+        - ./kokoro-tts/huggingface:/root/.cache/huggingface
       deploy:
         resources:
           reservations:
