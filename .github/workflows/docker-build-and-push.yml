@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - dev
     paths:
           - '**.py'
           - 'static/**'
@@ -19,11 +20,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v2
-      #   with:
-      #     platforms: 'arm64,amd64'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -42,6 +38,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set Docker tags based on branch
+        id: tags
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+            echo "GHCR_TAG=ghcr.io/${{ github.repository }}:latest" >> $GITHUB_OUTPUT
+            echo "DOCKER_TAG=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest" >> $GITHUB_OUTPUT
+          elif [[ ${{ github.ref }} == 'refs/heads/dev' ]]; then
+            echo "GHCR_TAG=ghcr.io/${{ github.repository }}:dev" >> $GITHUB_OUTPUT
+            echo "DOCKER_TAG=docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:dev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v6
@@ -51,5 +58,5 @@ jobs:
           # platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            docker.io/${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+            ${{ steps.tags.outputs.GHCR_TAG }}
+            ${{ steps.tags.outputs.DOCKER_TAG }}
