@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libsndfile1 \
     espeak-ng \
     git \
+    supervisor \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up virtual environment
@@ -24,16 +25,19 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 # Copy application files
 COPY app.py .
+COPY api.py .
 COPY kokoro_tts.py .
 COPY example.txt .
 COPY templates/ templates/
 COPY static/ static/
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Create directories
 RUN mkdir -p input output
 
-# Expose port
+# Expose ports
 EXPOSE 5001
+EXPOSE 5002
 
-# Run the application
-CMD ["python", "app.py"]
+# Run supervisor instead of directly running the application
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

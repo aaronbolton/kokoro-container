@@ -64,3 +64,4 @@ docker-compose.override.yml
 output/
 *.wav
 !input/example.txt
+*.mp3

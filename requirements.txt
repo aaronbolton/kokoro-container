@@ -2,3 +2,5 @@ flask==3.1.0
 numpy==2.2.3
 soundfile==0.13.1
 scipy
+pydub==0.25.1  # For audio format conversion
+requests==2.31.0  # For the test script
