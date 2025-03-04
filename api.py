@@ -14,12 +14,33 @@ API_KEY = os.getenv('KOKORO_API_KEY', 'your-secret-key-here')
 
 # Voice mapping from OpenAI to Kokoro voices
 VOICE_MAPPING = {
+    # Existing mappings
     'alloy': 'af_alloy',    # American female alloy
     'echo': 'am_echo',      # American male echo
     'fable': 'bf_fable',    # British female fable
     'onyx': 'am_onyx',      # American male onyx
     'nova': 'af_nova',      # American female nova
-    'shimmer': 'af_shimmer' # American female shimmer
+    'shimmer': 'af_shimmer', # American female shimmer
+    
+    # Additional American female voices
+    'heart': 'af_heart',    # American female heart (A grade)
+    'aoede': 'af_aoede',    # American female aoede (C+ grade)
+    'bella': 'af_bella',    # American female bella (A- grade)
+    'jessica': 'af_jessica', # American female jessica (D grade)
+    'kore': 'af_kore',      # American female kore (C+ grade)
+    'nicole': 'af_nicole',  # American female nicole (B- grade)
+    'river': 'af_river',    # American female river (D grade)
+    'sarah': 'af_sarah',    # American female sarah (C+ grade)
+    'sky': 'af_sky',        # American female sky (C- grade)
+    
+    # Additional American male voices
+    'adam': 'am_adam',      # American male adam (F+ grade)
+    'eric': 'am_eric',      # American male eric (D grade)
+    'fenrir': 'am_fenrir',  # American male fenrir (C+ grade)
+    'liam': 'am_liam',      # American male liam (D grade)
+    'michael': 'am_michael', # American male michael (C+ grade)
+    'puck': 'am_puck',      # American male puck (C+ grade)
+    'santa': 'am_santa'     # American male santa (D- grade)
 }
 
 # Model mapping from OpenAI to Kokoro language codes
@@ -215,17 +236,18 @@ def list_models():
 @app.route('/v1/audio/speech/voices', methods=['GET'])
 def list_voices():
     voices = [
+        # Existing voices
         {
             "voice_id": "alloy",
             "name": "Alloy",
-            "description": "American female voice with a natural and versatile tone",
+            "description": "American female voice with a natural and versatile tone (C grade)",
             "preview_url": None,
             "kokoro_voice": VOICE_MAPPING["alloy"]
         },
         {
             "voice_id": "echo",
             "name": "Echo",
-            "description": "American male voice with a natural and versatile tone",
+            "description": "American male voice with a natural tone (D grade)",
             "preview_url": None,
             "kokoro_voice": VOICE_MAPPING["echo"]
         },
@@ -239,14 +261,14 @@ def list_voices():
         {
             "voice_id": "onyx",
             "name": "Onyx",
-            "description": "American male voice with a deep and authoritative tone",
+            "description": "American male voice with a deep tone (D grade)",
             "preview_url": None,
             "kokoro_voice": VOICE_MAPPING["onyx"]
         },
         {
             "voice_id": "nova",
             "name": "Nova",
-            "description": "American female voice with a natural and versatile tone",
+            "description": "American female voice with a natural tone (C grade)",
             "preview_url": None,
             "kokoro_voice": VOICE_MAPPING["nova"]
         },
@@ -256,6 +278,122 @@ def list_voices():
             "description": "American female voice with a bright and melodic tone",
             "preview_url": None,
             "kokoro_voice": VOICE_MAPPING["shimmer"]
+        },
+        
+        # Additional American female voices
+        {
+            "voice_id": "heart",
+            "name": "Heart",
+            "description": "Premium American female voice with a warm, heartfelt tone (A grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["heart"]
+        },
+        {
+            "voice_id": "aoede",
+            "name": "Aoede",
+            "description": "American female voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["aoede"]
+        },
+        {
+            "voice_id": "bella",
+            "name": "Bella",
+            "description": "Premium American female voice with an energetic, passionate tone (A- grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["bella"]
+        },
+        {
+            "voice_id": "jessica",
+            "name": "Jessica",
+            "description": "American female voice with basic quality (D grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["jessica"]
+        },
+        {
+            "voice_id": "kore",
+            "name": "Kore",
+            "description": "American female voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["kore"]
+        },
+        {
+            "voice_id": "nicole",
+            "name": "Nicole",
+            "description": "American female voice with good clarity and professional tone (B- grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["nicole"]
+        },
+        {
+            "voice_id": "river",
+            "name": "River",
+            "description": "American female voice with basic quality (D grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["river"]
+        },
+        {
+            "voice_id": "sarah",
+            "name": "Sarah",
+            "description": "American female voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["sarah"]
+        },
+        {
+            "voice_id": "sky",
+            "name": "Sky",
+            "description": "American female voice with minimal training (C- grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["sky"]
+        },
+        
+        # Additional American male voices
+        {
+            "voice_id": "adam",
+            "name": "Adam",
+            "description": "American male voice with limited quality (F+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["adam"]
+        },
+        {
+            "voice_id": "eric",
+            "name": "Eric",
+            "description": "American male voice with basic quality (D grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["eric"]
+        },
+        {
+            "voice_id": "fenrir",
+            "name": "Fenrir",
+            "description": "American male voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["fenrir"]
+        },
+        {
+            "voice_id": "liam",
+            "name": "Liam",
+            "description": "American male voice with basic quality (D grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["liam"]
+        },
+        {
+            "voice_id": "michael",
+            "name": "Michael",
+            "description": "American male voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["michael"]
+        },
+        {
+            "voice_id": "puck",
+            "name": "Puck",
+            "description": "American male voice with average quality (C+ grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["puck"]
+        },
+        {
+            "voice_id": "santa",
+            "name": "Santa",
+            "description": "American male voice with minimal training (D- grade)",
+            "preview_url": None,
+            "kokoro_voice": VOICE_MAPPING["santa"]
         }
     ]
     
